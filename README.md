@@ -20,91 +20,6 @@ https://www.canva.com/design/DAF8x1L4B2M/k7hnoWwX4xfQS8naMCaFfg/view?utm_content
 
 
 
-Sure, here's a data dictionary for the proposed salary management system module with more advanced database details:
-
-1. **Table: Employees**
-   - Fields:
-     - EmployeeID (Primary Key, int)
-     - FirstName (varchar)
-     - LastName (varchar)
-     - DepartmentID (Foreign Key, int)
-     - Position (varchar)
-     - HireDate (date)
-     - Salary (decimal)
-     - Email (varchar)
-     - Phone (varchar)
-
-2. **Table: Departments**
-   - Fields:
-     - DepartmentID (Primary Key, int)
-     - DepartmentName (varchar)
-     - ManagerID (Foreign Key, int)
-
-3. **Table: Salaries**
-   - Fields:
-     - SalaryID (Primary Key, int)
-     - EmployeeID (Foreign Key, int)
-     - EffectiveDate (date)
-     - Amount (decimal)
-     - Reason (varchar)
-
-4. **Table: SalaryAdjustments**
-   - Fields:
-     - AdjustmentID (Primary Key, int)
-     - EmployeeID (Foreign Key, int)
-     - AdjustmentDate (datetime)
-     - OldAmount (decimal)
-     - NewAmount (decimal)
-     - Reason (varchar)
-
-5. **Table: PaySlips**
-   - Fields:
-     - PaySlipID (Primary Key, int)
-     - EmployeeID (Foreign Key, int)
-     - PayPeriodStart (date)
-     - PayPeriodEnd (date)
-     - GrossSalary (decimal)
-     - Deductions (decimal)
-     - NetSalary (decimal)
-
-6. **Table: Users**
-   - Fields:
-     - UserID (Primary Key, int)
-     - Username (varchar)
-     - Password (varchar)
-     - RoleID (Foreign Key, int)
-
-7. **Table: Roles**
-   - Fields:
-     - RoleID (Primary Key, int)
-     - RoleName (varchar)
-     - Description (varchar)
-
-8. **Table: Permissions**
-   - Fields:
-     - PermissionID (Primary Key, int)
-     - RoleID (Foreign Key, int)
-     - ModuleName (varchar)
-     - ReadAccess (bit)
-     - WriteAccess (bit)
-
-9. **Table: Reports**
-   - Fields:
-     - ReportID (Primary Key, int)
-     - ReportName (varchar)
-     - Description (varchar)
-     - Query (varchar)
-
-10. **Table: AuditLog**
-    - Fields:
-      - LogID (Primary Key, int)
-      - Action (varchar)
-      - TableName (varchar)
-      - RecordID (int)
-      - Timestamp (datetime)
-      - UserID (int)
-
-This data dictionary outlines the tables, fields, and their relationships within the proposed salary management system module. It includes more advanced database details such as primary keys, foreign keys, and additional fields for tracking audit logs and permissions.
 
 
 
@@ -113,49 +28,104 @@ This data dictionary outlines the tables, fields, and their relationships within
 
 
 
-Certainly! Here's an updated version of the data dictionary presented in a tabular format, including constraints and descriptions for each field:
 
-| Table: Employees          |
-|---------------------------|
-| Field          | Data Type | Constraint        | Description       |
-|----------------|-----------|-------------------|-------------------|
-| EmployeeID     | int       | Primary Key       | Unique identifier for each employee. |
-| FirstName      | varchar   | Not Null          | First name of the employee. |
-| LastName       | varchar   | Not Null          | Last name of the employee. |
-| DepartmentID   | int       | Foreign Key       | References the department to which the employee belongs. |
-| Position       | varchar   |                   | Job position/title of the employee. |
-| HireDate       | date      | Not Null          | Date when the employee was hired. |
-| Salary         | decimal   |                   | Base salary of the employee. |
-| Email          | varchar   |                   | Email address of the employee. |
-| Phone          | varchar   |                   | Phone number of the employee. |
 
-| Table: Departments        |
-|---------------------------|
-| Field          | Data Type | Constraint        | Description       |
-|----------------|-----------|-------------------|-------------------|
-| DepartmentID   | int       | Primary Key       | Unique identifier for each department. |
-| DepartmentName | varchar   | Not Null          | Name of the department. |
-| ManagerID      | int       | Foreign Key       | References the manager of the department. |
 
-| Table: Salaries           |
-|---------------------------|
-| Field          | Data Type | Constraint        | Description       |
-|----------------|-----------|-------------------|-------------------|
-| SalaryID       | int       | Primary Key       | Unique identifier for each salary record. |
-| EmployeeID     | int       | Foreign Key       | References the employee whose salary is being recorded. |
-| EffectiveDate  | date      | Not Null          | Date when the salary change becomes effective. |
-| Amount         | decimal   | Not Null          | Amount of the salary. |
-| Reason         | varchar   |                   | Reason for the salary change. |
 
-| Table: SalaryAdjustments  |
-|---------------------------|
-| Field          | Data Type | Constraint        | Description       |
-|----------------|-----------|-------------------|-------------------|
-| AdjustmentID   | int       | Primary Key       | Unique identifier for each salary adjustment record. |
-| EmployeeID     | int       | Foreign Key       | References the employee whose salary is being adjusted. |
-| AdjustmentDate | datetime  | Not Null          | Date and time when the salary adjustment is made. |
-| OldAmount      | decimal   | Not Null          | Previous amount of the salary. |
-| NewAmount      | decimal   | Not Null          | New amount of the salary after adjustment. |
-| Reason         | varchar   |                   | Reason for the salary adjustment. |
 
-(Continued in the next message due to character limit)
+
+
+
+Employee Table:
+| Column Name  | Data Type    | Description                             |
+|--------------|--------------|-----------------------------------------|
+| id           | INT          | Primary key                             |
+| Name         | NVARCHAR(255)| Employee name                           |
+
+
+
+AdditionDeduction Table:
+
+| Column Name     | Data Type    | Description                             |
+|-----------------|--------------|-----------------------------------------|
+| id              | INT          | Primary key                             |
+| Name            | NVARCHAR(255)| Name of addition/deduction              |
+| Type            | CHAR(1)      | Type of addition/deduction              |
+| DefaultAmount   | DOUBLE       | Default amount for addition/deduction   |
+| CreatedBy       | INT          | ID of the user who created the record   |
+| UpdatedBy       | INT          | ID of the user who last updated the record|
+| CreatedOn       | DATETIME     | Timestamp of creation                   |
+| UpdatedOn       | DATETIME     | Timestamp of last update                |
+| DeletedBy       | INT          | ID of the user who deleted the record   |
+
+EmployeeSalaryConfiguration Table:
+| Column Name          | Data Type    | Description                             |
+|----------------------|--------------|-----------------------------------------|
+| id                   | INT          | Primary key                             |
+| EmployeeID           | INT          | Foreign key referencing Employee table  |
+| AdditionDeductionId  | INT          | Foreign key referencing AdditionDeduction table|
+| Amount               | DOUBLE       | Amount for the configuration            |
+| EffectiveDate        | DATETIME     | Effective date of the configuration     |
+| EndDate              | DATETIME     | End date of the configuration           |
+| CreatedBy            | INT          | ID of the user who created the record   |
+| UpdatedBy            | INT          | ID of the user who last updated the record|
+| CreatedOn            | DATETIME     | Timestamp of creation                   |
+| UpdatedOn            | DATETIME     | Timestamp of last update                |
+| DeletedBy            | INT          | ID of the user who deleted the record   |
+
+
+EmployeeSalarySummary Table:
+| Column Name     | Data Type    | Description                             |
+|-----------------|--------------|-----------------------------------------|
+| id              | INT          | Primary key                             |
+| EmployeeID      | INT          | Foreign key referencing Employee table  |
+| Period          | INT          | Period identifier                       |
+| FinancialYear   | DATETIME     | Financial year of the summary           |
+| TotalAddition   | DOUBLE       | Total amount of all additions for the period |
+| TotalDeduction  | DOUBLE       | Total amount of all deductions for the period |
+| NetSalary       | DOUBLE       | Net salary after subtracting deductions from additions |
+| CreatedBy       | INT          | ID of the user who created the record   |
+| UpdatedBy       | INT          | ID of the user who last updated the record|
+| CreatedOn       | DATETIME     | Timestamp of creation                   |
+| UpdatedOn       | DATETIME     | Timestamp of last update                |
+| DeletedBy       | INT          | ID of the user who deleted the record   |
+
+
+Timesheet Table:
+| Column Name                 | Data Type    | Description                             |
+|-----------------------------|--------------|-----------------------------------------|
+| id                          | INT          | Primary key                             |
+| EmployeeID                  | INT          | Foreign key referencing Employee table  |
+| CompanyID                   | INT          | Foreign key referencing Company table   |
+| EmployeeSalaryConfigurationId| INT         | Foreign key referencing EmployeeSalaryConfiguration table|
+| EmployeeSalarySummaryId     | INT          | Foreign key referencing EmployeeSalarySummary table|
+| Status                      | NVARCHAR(255)| Status of the timesheet                 |
+| HoursWorked                 | INT          | Hours worked by the employee            |
+| LeaveTaken                  | INT          | Leave taken by the employee             |
+| OvertimeHours               | INT          | Overtime hours worked by the employee   |
+| CreatedBy                   | INT          | ID of the user who created the record   |
+| UpdatedBy                   | INT          | ID of the user who last updated the record|
+| CreatedOn                   | DATETIME     | Timestamp of creation                   |
+| UpdatedOn                   | DATETIME     | Timestamp of last update                |
+| DeletedBy                   | INT          | ID of the user who deleted the record   |
+
+YtdSummary Table:
+| Column Name            | Data Type    | Description                             |
+|------------------------|--------------|-----------------------------------------|
+| id                     | INT          | Primary key                             |
+| EmployeeSalarySummaryId| INT          | Foreign key referencing EmployeeSalarySummary table|
+| AdditionDeductionId    | INT          | Foreign key referencing AdditionDeduction table|
+| YtdAmount              | DOUBLE       | Year-to-date amount                     |
+
+
+
+Company Table:
+| Column Name  | Data Type    | Description                             |
+|--------------|--------------|-----------------------------------------|
+| id           | INT          | Primary key                             |
+| Name         | NVARCHAR(255)| Company name                            |
+| Address      | NVARCHAR(255)| Company address                         |
+| Logo         | NVARCHAR(255)| URL of the company logo                 |
+
+
+
