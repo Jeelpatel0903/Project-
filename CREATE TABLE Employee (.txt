@@ -1,0 +1,177 @@
+CREATE TABLE Employee (
+    id INT PRIMARY KEY,
+    Name NVARCHAR(255)
+);
+
+CREATE TABLE AdditionDeduction (
+    id INT PRIMARY KEY,
+    Name NVARCHAR(255),
+    Type CHAR,
+    DefaultAmount FLOAT,
+    CreatedBy INT,
+    UpdatedBy INT,
+    CreatedOn DATETIME,
+    UpdatedOn DATETIME,
+    DeletedBy INT
+);
+
+CREATE TABLE EmployeeSalaryConfiguration (
+    id INT PRIMARY KEY,
+    EmployeeID INT,
+    AdditionDeductionId INT,
+    Amount FLOAT,
+    EffectiveDate DATETIME,
+    EndDate DATETIME,
+    CreatedBy INT,
+    UpdatedBy INT,
+    CreatedOn DATETIME,
+    UpdatedOn DATETIME,
+    DeletedBy INT,
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(id),
+    FOREIGN KEY (AdditionDeductionId) REFERENCES AdditionDeduction(id)
+);
+
+CREATE TABLE EmployeeSalarySummary (
+    id INT PRIMARY KEY,
+    EmployeeID INT,
+    Period INT,
+    FinancialYear DATETIME,
+    TotalAddition FLOAT,
+    TotalDeduction FLOAT,
+    NetSalary FLOAT,
+    CreatedBy INT,
+    UpdatedBy INT,
+    CreatedOn DATETIME,
+    UpdatedOn DATETIME,
+    DeletedBy INT,
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(id)
+);
+
+CREATE TABLE Timesheet (
+    id INT PRIMARY KEY,
+    EmployeeID INT,
+    CompanyID INT,
+    EmployeeSalaryConfigurationId INT,
+    EmployeeSalarySummaryId INT,
+    Status NVARCHAR(255),
+    CreatedBy INT,
+    UpdatedBy INT,
+    CreatedOn DATETIME,
+    UpdatedOn DATETIME,
+    DeletedBy INT,
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(id),
+    FOREIGN KEY (EmployeeSalaryConfigurationId) REFERENCES EmployeeSalaryConfiguration(id),
+    FOREIGN KEY (EmployeeSalarySummaryId) REFERENCES EmployeeSalarySummary(id)
+);
+
+CREATE TABLE YtdSummary (
+    id INT PRIMARY KEY,
+    EmployeeSalarySummaryId INT,
+    AdditionDeductionId INT,
+    YtdAmount FLOAT,
+    FOREIGN KEY (EmployeeSalarySummaryId) REFERENCES EmployeeSalarySummary(id),
+    FOREIGN KEY (AdditionDeductionId) REFERENCES AdditionDeduction(id)
+);
+
+CREATE TABLE CompanyTable (
+    id INT PRIMARY KEY,
+    Name NVARCHAR(255),
+    Address NVARCHAR(255),
+    Logo NVARCHAR(255)
+);
+
+
+-- Employee table data
+INSERT INTO Employee (id, Name) VALUES
+(1, 'Jeel'),
+(2, 'arjun'),
+(3, 'Manthan'),
+(4, 'rakesh'),
+(5, 'ayuhshi'),
+(6, 'alvi'),
+(7, 'Ronak'),
+(8, 'mit'),
+(9, 'yuvraj'),
+(10, 'mayur');
+
+-- AdditionDeduction table data
+INSERT INTO AdditionDeduction (id, Name, Type, DefaultAmount, CreatedBy, UpdatedBy, CreatedOn, UpdatedOn, DeletedBy) VALUES
+(1, 'Bonus', 'A', 500, 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(2, 'Tax', 'D', 200, 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(3, 'Overtime Pay', 'A', 1000, 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(4, 'Insurance', 'D', 150, 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(5, 'Commission', 'A', 300, 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(6, 'Allowance', 'A', 400, 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(7, 'Medical Expense', 'D', 100, 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(8, 'Travel Reimbursement', 'A', 200, 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(9, 'Pension', 'D', 300, 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(10, 'Uniform Allowance', 'A', 150, 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL);
+
+-- EmployeeSalaryConfiguration table data
+INSERT INTO EmployeeSalaryConfiguration (id, EmployeeID, AdditionDeductionId, Amount, EffectiveDate, EndDate, CreatedBy, UpdatedBy, CreatedOn, UpdatedOn, DeletedBy) VALUES
+(1, 1, 1, 2000, '2023-09-01', '2023-12-31', 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(2, 1, 2, 300, '2023-09-01', '2023-12-31', 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(3, 1, 3, 1000, '2023-09-01', '2023-12-31', 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(4, 2, 4, 250, '2023-09-01', '2023-12-31', 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(5, 2, 5, 1200, '2023-09-01', '2023-12-31', 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(6, 3, 6, 400, '2023-09-01', '2023-12-31', 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(7, 3, 7, 150, '2023-09-01', '2023-12-31', 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(8, 4, 8, 500, '2023-09-01', '2023-12-31', 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(9, 4, 9, 300, '2023-09-01', '2023-12-31', 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(10, 5, 10, 200, '2023-09-01', '2023-12-31', 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL);
+
+-- EmployeeSalarySummary table data
+INSERT INTO EmployeeSalarySummary (id, EmployeeID, Period, FinancialYear, TotalAddition, TotalDeduction, NetSalary, CreatedBy, UpdatedBy, CreatedOn, UpdatedOn, DeletedBy) VALUES
+(1, 1, 1, '2023-09-01', 3500, 300, 3200, 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(2, 1, 2, '2023-09-01', 3300, 350, 2950, 1, 1, '2023-10-01 10:00:00', '2023-10-01 10:00:00', NULL),
+(3, 1, 3, '2023-09-01', 3500, 400, 3100, 1, 1, '2023-11-01 10:00:00', '2023-11-01 10:00:00', NULL),
+(4, 2, 1, '2023-09-01', 1750, 200, 1550, 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(5, 2, 2, '2023-09-01', 1850, 250, 1600, 1, 1, '2023-10-01 10:00:00', '2023-10-01 10:00:00', NULL),
+(6, 3, 1, '2023-09-01', 550, 250, 300, 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(7, 4, 1, '2023-09-01', 800, 300, 500, 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(8, 5, 1, '2023-09-01', 350, 150, 200, 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(9, 2, 2, '2023-10-01', 2000, 350, 1650, 1, 1, '2023-10-01 10:00:00', '2023-10-01 10:00:00', NULL),
+(10, 2, 3, '2023-11-01', 2100, 400, 1700, 1, 1, '2023-11-01 10:00:00', '2023-11-01 10:00:00', NULL),
+(11, 3, 2, '2023-10-01', 700, 300, 400, 1, 1, '2023-10-01 10:00:00', '2023-10-01 10:00:00', NULL),
+(12, 4, 2, '2023-10-01', 800, 300, 500, 1, 1, '2023-10-01 10:00:00', '2023-10-01 10:00:00', NULL),
+(13, 5, 2, '2023-10-01', 350, 150, 200, 1, 1, '2023-10-01 10:00:00', '2023-10-01 10:00:00', NULL);
+
+-- Timesheet table data
+INSERT INTO Timesheet (id, EmployeeID, CompanyID, EmployeeSalaryConfigurationId, EmployeeSalarySummaryId, Status, CreatedBy, UpdatedBy, CreatedOn, UpdatedOn, DeletedBy) VALUES
+(1, 1, 1, 1, 1, 'Submitted', 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(2, 1, 1, 2, 2, 'Submitted', 1, 1, '2023-10-01 10:00:00', '2023-10-01 10:00:00', NULL),
+(3, 1, 1, 3, 3, 'Submitted', 1, 1, '2023-11-01 10:00:00', '2023-11-01 10:00:00', NULL),
+(4, 2, 1, 4, 4, 'Submitted', 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(5, 2, 1, 5, 5, 'Submitted', 1, 1, '2023-10-01 10:00:00', '2023-10-01 10:00:00', NULL),
+(6, 3, 1, 6, 6, 'Submitted', 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(7, 4, 1, 7, 7, 'Submitted', 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL),
+(8, 5, 1, 8, 8, 'Submitted', 1, 1, '2023-09-01 10:00:00', '2023-09-01 10:00:00', NULL);
+
+
+-- YtdSummary table data
+INSERT INTO YtdSummary (id, EmployeeSalarySummaryId, AdditionDeductionId, YtdAmount) VALUES
+(1, 1, 1, 1500),
+(2, 2, 1, 3200),
+(3, 3, 1, 4800),
+(4, 4, 2, 550),
+(5, 5, 2, 900),
+(6, 6, 3, 1000),
+(7, 7, 4, 300),
+(8, 8, 5, 500),
+(9, 9, 6, 300),
+(10, 10, 7, 150),
+(11, 11, 1, 4900),
+(12, 12, 1, 7000),
+(13, 13, 2, 1300),
+(14, 14, 2, 1600),
+(15, 15, 2, 550);
+
+-- CompanyTable table data
+INSERT INTO CompanyTable (id, Name, Address, logo) VALUES
+(1, 'XYZ Corporation', '123 Main Street, City, Country', 'xyz_logo.png'),
+(2, 'ABC Inc.', '456 Elm Street, City, Country', 'abc_logo.png'),
+(3, '123 Industries', '789 Oak Street, City, Country', '123_logo.png'),
+(4, 'Global Enterprises', '987 Maple Street, City, Country', 'global_logo.png'),
+(5, 'Tech Solutions Ltd.', '654 Pine Street, City, Country', 'tech_logo.png');
+
+
