@@ -1,0 +1,58 @@
+<!-- custom-dropdown.component.html -->
+<p-dropdown
+  [options]="options"
+  [(ngModel)]="selectedOption"
+  optionLabel="label"
+  (keydown)="handleKeydown($event)"
+></p-dropdown>
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------
+
+
+
+
+// custom-dropdown.component.ts
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-custom-dropdown',
+  templateUrl: './custom-dropdown.component.html',
+  styleUrls: ['./custom-dropdown.component.css']
+})
+export class CustomDropdownComponent {
+  @Input() options: any[]; // Your list of options
+  @Output() selectionChange = new EventEmitter<any>();
+
+  selectedOption: any;
+  typedLetter = '';
+
+  handleKeydown(event: KeyboardEvent): void {
+    if (event.key.length === 1) {
+      // Only consider single-letter keys
+      this.typedLetter = event.key.toLowerCase();
+      this.updateSelection();
+    }
+  }
+
+  updateSelection(): void {
+    const matchingOption = this.options.find(
+      option => option.label.toLowerCase().startsWith(this.typedLetter)
+    );
+
+    if (matchingOption) {
+      this.selectedOption = matchingOption;
+      this.selectionChange.emit(this.selectedOption);
+    }
+  }
+}
