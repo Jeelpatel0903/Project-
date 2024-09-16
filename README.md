@@ -27,6 +27,21 @@ https://www.canva.com/design/DAF8x1L4B2M/k7hnoWwX4xfQS8naMCaFfg/view?utm_content
 
 
 
+Here’s the updated version based on your request:
+
+---
+
+**Suggestion for Improvement:**
+
+In the current system, there is a popup displaying all employees in a grid with options to select or multi-select employees and assign them.
+
+I suggest adding a switch toggle at the top of the popup with two values: "Assigned" and "Unassigned." When the toggle is set to "Assigned," it will display employees who are already assigned to other agencies. When the toggle is set to "Unassigned," it will display employees who are not assigned to any other agency.
+
+This change will simplify the process of managing employees, as users can focus on one action at a time. For instance, when the toggle is on "Assigned," users can view and manage employees already assigned to other agencies. When it’s on "Unassigned," users can assign employees who are not yet assigned to any agency.
+
+---
+
+This should now align with the functionality you're describing.
 
 
 
