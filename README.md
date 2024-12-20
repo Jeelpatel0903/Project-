@@ -258,3 +258,7 @@ Here’s how to address both these problems:
 
 This approach should help you manage the reCAPTCHA lifecycle better and resolve the issues you're encountering with automatic token generation without the puzzle appearing.
 
+
+
+
+https://www.npmjs.com/package/core-helper-packages
